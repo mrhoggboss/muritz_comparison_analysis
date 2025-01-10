@@ -1,0 +1,14 @@
+# Ignore data files
+*.csv
+*.json
+*.dat
+
+# Ignore the data folder
+/data/
+/__pycache__/
+/plots/
+/muritz_sample_results_31/
+
+# Ignore temporary files
+*.log
+*.tmp
