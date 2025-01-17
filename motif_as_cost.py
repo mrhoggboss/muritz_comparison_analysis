@@ -37,6 +37,8 @@ def compute_optimal_transport(loc1, loc2, motif_dist = 'euclidean', marginal = "
             elif motif_dist == "PearsonR":
                 # print(np.array(motif1, dtype=float)), print(motif2)
                 cost, _ = pearsonr(np.array(motif1, dtype=float), np.array(motif2, dtype=float))
+                cost = 1 - cost
+                print(f"Cost between {species1} and {species2} is {cost}")
             else:
                 print("motif distance measure not recognized. Euclidean is used.")
                 cost = np.linalg.norm(motif1 - motif2)

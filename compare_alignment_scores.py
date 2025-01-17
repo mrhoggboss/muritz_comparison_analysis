@@ -10,7 +10,9 @@ with open(webs_pkl_path, "rb") as f:
     loc2webs = pickle.load(f)
 
 locs = list(loc2webs)
-NAME1 = "kai"
+# NAME1 = "euclidean_wass_motif"
+NAME1 = "pearsonR_wass_motif"
+# NAME1 = "kai_gw"
 NAME2 = "muritz"
 indices_to_exclude = [115, 89] # corresponds to Skeleton Coast and Namaqua
 # indices_to_exclude = []
@@ -57,6 +59,7 @@ def plot_comparison_matrix(mode):
         # Load matrices
         matrix1 = pd.read_csv(f"./data/alignment_scores/{NAME1}_alignment_quality_{mode}.csv", header=None).drop(index=indices_to_exclude, axis=0).drop(columns=indices_to_exclude, axis=1)
         matrix2 = pd.read_csv(f"./data/alignment_scores/{NAME2}_alignment_quality_{mode}.csv", header=None).drop(index=indices_to_exclude, axis=0).drop(columns=indices_to_exclude, axis=1)
+
         # Assign row and column labels from matrix1 to matrix2
         matrix2.index = matrix1.index  # Row labels
         matrix2.columns = matrix1.columns  # Column labels
@@ -65,12 +68,12 @@ def plot_comparison_matrix(mode):
         matrix1_lower = pd.DataFrame(np.tril(matrix1.values), index=matrix1.index, columns=matrix1.columns)
         matrix2_lower = pd.DataFrame(np.tril(matrix2.values), index=matrix2.index, columns=matrix2.columns)
         
-        difference = matrix1 - matrix2
+        difference = matrix1_lower - matrix2_lower
         
         # Plot heatmaps
         fig, axes = plt.subplots(1, 3, figsize = (24, 7))
-        sns.heatmap(matrix1, ax=axes[0], cmap="viridis", annot=False)
-        sns.heatmap(matrix2, ax=axes[1], cmap="viridis", annot=False)
+        sns.heatmap(matrix1_lower, ax=axes[0], cmap="viridis", annot=False)
+        sns.heatmap(matrix2_lower, ax=axes[1], cmap="viridis", annot=False)
         sns.heatmap(difference, ax=axes[2], cmap="coolwarm", center=0, annot=False)
 
         # Add titles
@@ -92,8 +95,8 @@ def plot_comparison_matrix(mode):
 plot_comparison_matrix("soft")
 # plot_comparison_matrix("gw")
 
-print(locs[115])
-print(locs.index('Namaqua'))
+# print(locs[115])
+# print(locs.index('Namaqua'))
 # print(locs[54])
 # print(locs[96])
 # print(loc2webs[locs[115]])
